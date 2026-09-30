@@ -1,6 +1,6 @@
 # Happy Titan
 
-A tiny browser game for Emry and Rose, about their cat Titan.
+A tiny browser game for Emry, Rose and Nova, about their cat Titan.
 
 Play it: **https://correlator.github.io/happy-titan/**
 
@@ -17,6 +17,9 @@ comes back and you have to read the cat:
 | Licks his lips, dips his nose toward the floor | **Feed** |
 | Crouches, pupils go wide, tail whipping | **Play** |
 | Tilts his head, big slow blinks | **Pet** |
+| Stares upward, tail straight up, one paw reaching | **Climb** |
+
+Get Climb right and he scoots up the tree.
 
 Guess wrong and he flattens his ears. Dawdle and he loses patience. Three strikes
 and he runs away.

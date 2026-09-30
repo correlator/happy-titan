@@ -18,9 +18,11 @@
     --card:#fffdf6;
     --wash-emry:#ffd9ec;
     --wash-rose:#d7f5ef;
+    --wash-nova:#dbe4ff;
     --wash-feed:#ffe1b0;
     --wash-play:#dcd4ff;
     --wash-pet:#ffd6e2;
+    --wash-climb:#cdeccf;
     --wash-win:#ffe07d;
     --wash-again:#bff5c6;
     --panel:rgba(255,255,255,.6);
@@ -43,9 +45,11 @@
       --card:#3b3352;
       --wash-emry:#53355e;
       --wash-rose:#274c4a;
+      --wash-nova:#2f3a5e;
       --wash-feed:#4d3d28;
       --wash-play:#3b3459;
       --wash-pet:#4e2f42;
+      --wash-climb:#2c4733;
       --wash-win:#5a4622;
       --wash-again:#2a4d36;
       --panel:rgba(255,255,255,.10);
@@ -64,9 +68,11 @@
     --card:#3b3352;
     --wash-emry:#53355e;
     --wash-rose:#274c4a;
+    --wash-nova:#2f3a5e;
     --wash-feed:#4d3d28;
     --wash-play:#3b3459;
     --wash-pet:#4e2f42;
+    --wash-climb:#2c4733;
     --wash-win:#5a4622;
     --wash-again:#2a4d36;
     --panel:rgba(255,255,255,.10);
@@ -120,15 +126,16 @@
   .btn[disabled]{pointer-events:none; opacity:.55;}
 
   /* ---------- character pick ---------- */
-  .picks{display:flex;gap:4vw;flex-wrap:wrap;justify-content:center;}
-  .pick{width:min(34vw,300px);padding:2.4vh 1.6vw;gap:1.4vh;}
+  .picks{display:flex;gap:min(3vw,30px);flex-wrap:wrap;justify-content:center;}
+  .pick{width:min(27vw,250px);padding:2.2vh 1.2vw;gap:1.2vh;}
   .pick .face{
-    width:min(24vw,210px); height:min(24vw,210px); border-radius:50%;
+    width:min(19vw,172px); height:min(19vw,172px); border-radius:50%;
     object-fit:cover; border:8px solid var(--card); box-shadow:0 8px 20px var(--shadow-soft);
   }
   .pick .nm{font-family:var(--font-display);font-weight:600;font-size:clamp(22px,4.2vh,40px);}
   .pick.emry{background:linear-gradient(160deg,var(--card),var(--wash-emry));}
   .pick.rose{background:linear-gradient(160deg,var(--card),var(--wash-rose));}
+  .pick.nova{background:linear-gradient(160deg,var(--card),var(--wash-nova));}
 
   /* ---------- play screen ---------- */
   #play{justify-content:space-between;padding-block:1.4vh;padding-inline:max(16px,2vw);}
@@ -154,6 +161,10 @@
   .catwrap{position:relative;display:flex;align-items:flex-end;justify-content:center;
            height:100%;transition:transform .5s ease, opacity .5s ease;}
   #cat{height:min(48vh,450px);width:auto;display:block;overflow:visible;}
+  #tree{position:absolute;bottom:0;left:calc(50% + 5vw);height:96%;max-height:min(52vh,470px);width:auto;
+        opacity:0;transform:translateY(26px) scale(.92);transform-origin:bottom center;
+        transition:opacity .45s ease, transform .45s ease;pointer-events:none;}
+  .stage.climb #tree{opacity:1;transform:none;}
 
   /* thought bubble */
   .bubble{
@@ -171,13 +182,15 @@
   @keyframes pop{from{opacity:0;transform:translateX(-132%) scale(.4);}to{opacity:1;transform:translateX(-132%) scale(1);}}
 
   /* action buttons */
-  .actions{display:flex;gap:2.2vw;width:100%;justify-content:center;padding-bottom:2vh;}
-  .act{width:min(26vw,250px);height:min(18vh,168px);gap:.6vh;}
-  .act svg{width:clamp(44px,9vh,92px);height:clamp(44px,9vh,92px);}
+  .actions{display:flex;gap:min(1.8vw,22px);width:100%;justify-content:center;
+           flex-wrap:wrap;padding-bottom:2vh;}
+  .act{width:min(21vw,205px);height:min(17vh,156px);gap:.6vh;}
+  .act svg{width:clamp(40px,8vh,80px);height:clamp(40px,8vh,80px);}
   .act span{font-family:var(--font-display);font-weight:600;font-size:clamp(16px,3vh,30px);}
   .act.feed{background:linear-gradient(160deg,var(--card),var(--wash-feed));}
   .act.play{background:linear-gradient(160deg,var(--card),var(--wash-play));}
   .act.pet{background:linear-gradient(160deg,var(--card),var(--wash-pet));}
+  .act.climb{background:linear-gradient(160deg,var(--card),var(--wash-climb));}
 
   /* toast */
   .toast{
@@ -247,6 +260,19 @@
   @keyframes slowblinkb{0%,38%,100%{opacity:0;}52%,74%{opacity:1;}}
   .catwrap.tell-cuddly #cat .blush{opacity:.55;}
 
+  /* wants to climb: staring up the trunk, tail straight up, one paw already reaching */
+  .catwrap.tell-climby #cat .pupil{transform-box:fill-box;transform-origin:center;
+    animation:lookup 2.4s ease-in-out infinite;}
+  @keyframes lookup{0%,100%{transform:translateY(0);}35%,85%{transform:translateY(-8px);}}
+  .catwrap.tell-climby #cat .head{animation:crane 2.4s ease-in-out infinite;}
+  @keyframes crane{0%,100%{transform:translateY(0);}35%,85%{transform:translateY(-8px);}}
+  .catwrap.tell-climby #cat .tail{transform-origin:left bottom;
+    animation:tailup 2.4s ease-in-out infinite;}
+  @keyframes tailup{0%,100%{transform:rotate(-6deg);}35%,85%{transform:rotate(-54deg);}}
+  .catwrap.tell-climby #cat .paw-l{transform-box:fill-box;transform-origin:center bottom;
+    animation:reach 2.4s ease-in-out infinite;}
+  @keyframes reach{0%,100%{transform:translateY(0) rotate(0deg);}35%,85%{transform:translateY(-30px) rotate(-10deg);}}
+
   .catwrap.happy #cat{animation:purr .32s ease-in-out 5;}
   @keyframes purr{0%,100%{transform:translate(0,0) rotate(0);}25%{transform:translate(-3px,-10px) rotate(-1.5deg);}75%{transform:translate(3px,-10px) rotate(1.5deg);}}
   .catwrap.happy #cat .eyes-open{opacity:0;}
@@ -267,6 +293,17 @@
   .catwrap.grumpy #cat .pupil{transform:scaleY(.55);transform-box:fill-box;transform-origin:center;}
 
   #cat .mouth-smile,#cat .mouth-frown{opacity:0;}
+
+  /* up the trunk he goes */
+  .catwrap.climbing #cat{animation:climbup 1.5s cubic-bezier(.3,.7,.4,1) forwards;}
+  @keyframes climbup{
+    0%{transform:translate(0,0) rotate(0deg);}
+    25%{transform:translate(4%,2%) rotate(0deg);}
+    100%{transform:translate(13%,-15%) rotate(-5deg);}
+  }
+  .catwrap.climbing #cat .tail{transform-origin:left bottom;transform:rotate(-46deg);animation:none;}
+  .catwrap.climbing #cat .paw-l{transform-box:fill-box;transform:translateY(-26px) rotate(-12deg);}
+  .catwrap.climbing #cat .paw-r{transform-box:fill-box;transform:translateY(-10px) rotate(-6deg);}
 
   .catwrap.gone{transform:translateX(120vw) rotate(18deg);opacity:0;}
 
@@ -302,7 +339,7 @@
 
   @media (max-width:760px){
     .picks{gap:3vw;}
-    .act{width:28vw;}
+    .act{width:min(44vw,210px);}
   }
 </style>
 </head>
@@ -323,6 +360,15 @@
       <circle cx="52" cy="54" r="40" fill="#ff8fb1" stroke="#c0496f" stroke-width="5"/>
       <path d="M22 36c20 6 34 20 40 40M30 74c16-18 20-34 18-50M74 24c-10 18-8 38 4 54M18 56c22-2 38-10 48-24" stroke="#c0496f" stroke-width="5" fill="none" stroke-linecap="round"/>
       <path d="M88 76c14 4 16 16 8 26" stroke="#c0496f" stroke-width="6" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-tree" viewBox="0 0 100 100">
+      <path d="M45 94V52h10v42z" fill="#8a6a44" stroke="#66492b" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M50 60l-13-11h26z" fill="#66492b"/>
+      <circle cx="50" cy="30" r="21" fill="#57c07a"/>
+      <circle cx="30" cy="43" r="15" fill="#43a765"/>
+      <circle cx="70" cy="43" r="15" fill="#43a765"/>
+      <circle cx="50" cy="45" r="14" fill="#74d894"/>
+      <circle cx="41" cy="26" r="5" fill="#8fe6aa"/>
     </symbol>
     <symbol id="i-hand" viewBox="0 0 110 110">
       <path d="M36 92c-12-8-18-20-18-34V38c0-5 4-9 9-9s9 4 9 9v12V24c0-5 4-9 9-9s9 4 9 9v26V18c0-5 4-9 9-9s9 4 9 9v32V32c0-5 4-9 9-9s9 4 9 9v34c0 16-10 26-22 32z"
@@ -359,6 +405,10 @@
         <img class="face" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%3E%3Cdefs%3E%3CclipPath%20id%3D%22c%22%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%22100%22%20r%3D%22100%22%2F%3E%3C%2FclipPath%3E%3ClinearGradient%20id%3D%22w%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ff6fb2%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23cc2f86%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Cg%20clip-path%3D%22url%28%23c%29%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23ffe7f4%22%2F%3E%0A%3Ccircle%20cx%3D%22100%22%20cy%3D%22158%22%20r%3D%2296%22%20fill%3D%22%23fff2f9%22%2F%3E%0A%3Cpath%20d%3D%22M100%2022c-46%200-68%2032-68%2078%200%2038%208%2066%2012%20100h112c4-34%2012-62%2012-100%200-46-22-78-68-78z%22%20fill%3D%22%23eec97e%22%2F%3E%0A%3Cpath%20d%3D%22M87%20132h26v34H87z%22%20fill%3D%22%23eec0a0%22%2F%3E%0A%3Cpath%20d%3D%22M100%20152c-29%200-52%2017-58%2040l-5%2022h126l-5-22c-6-23-29-40-58-40z%22%20fill%3D%22%23fffdf7%22%2F%3E%0A%3Cpath%20d%3D%22M100%20152c-9%200-17%201-24%204l24%2024%2024-24c-7-3-15-4-24-4z%22%20fill%3D%22%23f1e7d8%22%2F%3E%0A%3Cellipse%20cx%3D%22100%22%20cy%3D%22102%22%20rx%3D%2245%22%20ry%3D%2252%22%20fill%3D%22%23f8dcc0%22%2F%3E%0A%3Cellipse%20cx%3D%2256%22%20cy%3D%22104%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23f2cfae%22%2F%3E%0A%3Cellipse%20cx%3D%22144%22%20cy%3D%22104%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23f2cfae%22%2F%3E%0A%3Cpath%20d%3D%22M100%2044c-36%200-52%2020-53%2050%203-14%207-26%2013-32%2016%2014%2054%2016%2076%202%206%206%2011%2016%2014%2030%200-30-14-50-50-50z%22%20fill%3D%22%23f6d98d%22%2F%3E%0A%3Cpath%20d%3D%22M40%2086c-7%2024-5%2050%200%2072%207-22%206-50%200-72z%22%20fill%3D%22%23e4bc6c%22%2F%3E%0A%3Cpath%20d%3D%22M160%2086c7%2024%205%2050%200%2072-7-22-6-50%200-72z%22%20fill%3D%22%23e4bc6c%22%2F%3E%0A%3Cellipse%20cx%3D%2280%22%20cy%3D%22100%22%20rx%3D%228.5%22%20ry%3D%227.5%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cellipse%20cx%3D%22120%22%20cy%3D%22100%22%20rx%3D%228.5%22%20ry%3D%227.5%22%20fill%3D%22%23fff%22%2F%3E%0A%3Ccircle%20cx%3D%2280%22%20cy%3D%22100%22%20r%3D%225.6%22%20fill%3D%22%235b8bc0%22%2F%3E%0A%3Ccircle%20cx%3D%22120%22%20cy%3D%22100%22%20r%3D%225.6%22%20fill%3D%22%235b8bc0%22%2F%3E%0A%3Ccircle%20cx%3D%2280%22%20cy%3D%22100%22%20r%3D%222.8%22%20fill%3D%22%231d1418%22%2F%3E%0A%3Ccircle%20cx%3D%22120%22%20cy%3D%22100%22%20r%3D%222.8%22%20fill%3D%22%231d1418%22%2F%3E%0A%3Ccircle%20cx%3D%2282.6%22%20cy%3D%2297.4%22%20r%3D%221.9%22%20fill%3D%22%23fff%22%2F%3E%0A%3Ccircle%20cx%3D%22122.6%22%20cy%3D%2297.4%22%20r%3D%221.9%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cpath%20d%3D%22M97%20113c2%202.6%204%202.6%206%200%22%20fill%3D%22none%22%20stroke%3D%22%23dcab86%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M76%20122c10%2022%2038%2022%2048%200-16%206-32%206-48%200z%22%20fill%3D%22%23a8465a%22%2F%3E%3Cpath%20d%3D%22M78.5%20122.8c14%205%2029%205%2043%200-13%203.4-30%203.4-43%200z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22M88%20140c8%203%2016%203%2024%200%22%20fill%3D%22none%22%20stroke%3D%22%238d3a4a%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.5%22%2F%3E%3Cg%20id%3D%22wL%22%3E%3Cpath%20d%3D%22M92%2074C84%2056%2064%2046%2048%2052%2038%2058%2040%2076%2054%2084c12%206%2030%202%2038-10z%22%20fill%3D%22url%28%23w%29%22%2F%3E%3Cpath%20d%3D%22M88%20112c-10%204-24%206-32%2014-4%208%204%2015%2014%2012%2010-4%2017-14%2018-26z%22%20fill%3D%22url%28%23w%29%22%2F%3E%3Cellipse%20cx%3D%2260%22%20cy%3D%2266%22%20rx%3D%226%22%20ry%3D%224.6%22%20fill%3D%22%232e0b26%22%2F%3E%3Cellipse%20cx%3D%2276%22%20cy%3D%2274%22%20rx%3D%223.6%22%20ry%3D%223%22%20fill%3D%22%232e0b26%22%2F%3E%3Cellipse%20cx%3D%2270%22%20cy%3D%22124%22%20rx%3D%224.6%22%20ry%3D%223.6%22%20fill%3D%22%232e0b26%22%2F%3E%3Ccircle%20cx%3D%2252%22%20cy%3D%2274%22%20r%3D%222%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2266%22%20cy%3D%2255%22%20r%3D%221.8%22%20fill%3D%22%238ef0ff%22%2F%3E%3Ccircle%20cx%3D%2280%22%20cy%3D%22120%22%20r%3D%221.7%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28200%2C0%29%20scale%28-1%2C1%29%22%3E%3Cuse%20href%3D%22%23wL%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22M100%2078c-6-6-12-10-12-15%200-4%204-7%208-4%202%201%203%203%204%205%201-2%202-4%204-5%204-3%208%200%208%204%200%205-6%209-12%2015z%22%20fill%3D%22none%22%20stroke%3D%22%2320121c%22%20stroke-width%3D%223.6%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M100%2080c5%206-6%209-1%2014%22%20fill%3D%22none%22%20stroke%3D%22%2320121c%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2290%22%20cy%3D%2258%22%20r%3D%221.7%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%22111%22%20cy%3D%2257%22%20r%3D%221.5%22%20fill%3D%22%238ef0ff%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Emry">
         <span class="nm">Emry</span>
       </button>
+      <button class="btn pick nova" data-who="nova">
+        <img class="face" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%3E%3Cdefs%3E%3CclipPath%20id%3D%22c%22%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%22100%22%20r%3D%22100%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Cg%20clip-path%3D%22url%28%23c%29%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23e6ecff%22%2F%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%22158%22%20r%3D%2296%22%20fill%3D%22%23f3f6ff%22%2F%3E%3Cpath%20d%3D%22M100%20150c-33%200-58%2018-64%2045l-4%2019h136l-4-19c-6-27-31-45-64-45z%22%20fill%3D%22%23e8c6c6%22%2F%3E%3Cpath%20d%3D%22M100%20150c-10%200-19%202-27%205l27%2021%2027-21c-8-3-17-5-27-5z%22%20fill%3D%22%23d7aaaa%22%2F%3E%3Cpath%20d%3D%22M84%20126h32v30H84z%22%20fill%3D%22%23eec3a8%22%2F%3E%3Cellipse%20cx%3D%2246%22%20cy%3D%22102%22%20rx%3D%229%22%20ry%3D%2212.5%22%20fill%3D%22%23f3cdb0%22%2F%3E%3Cellipse%20cx%3D%22154%22%20cy%3D%22102%22%20rx%3D%229%22%20ry%3D%2212.5%22%20fill%3D%22%23f3cdb0%22%2F%3E%3Cellipse%20cx%3D%22100%22%20cy%3D%2295%22%20rx%3D%2254%22%20ry%3D%2256%22%20fill%3D%22%23f9dcc3%22%2F%3E%3Cpath%20d%3D%22M100%2039c-19%200-33%207-40%2017%2011-7%2025-11%2040-11s29%204%2040%2011c-7-10-21-17-40-17z%22%20fill%3D%22%23f2dfc0%22%20opacity%3D%22.9%22%2F%3E%3Cpath%20d%3D%22M99%2040c3-9%2015-7%2014%201-1%207-10%206-10%200%22%20fill%3D%22none%22%20stroke%3D%22%23e7cfa6%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M68%2089c7-3%2014-3%2019%201M113%2090c5-4%2012-4%2019-1%22%20fill%3D%22none%22%20stroke%3D%22%23e2bd96%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%2F%3E%3Cellipse%20cx%3D%2279%22%20cy%3D%22104%22%20rx%3D%229.5%22%20ry%3D%228.5%22%20fill%3D%22%23fff%22%2F%3E%3Cellipse%20cx%3D%22121%22%20cy%3D%22104%22%20rx%3D%229.5%22%20ry%3D%228.5%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2279%22%20cy%3D%22104%22%20r%3D%226.4%22%20fill%3D%22%236f9fd0%22%2F%3E%3Ccircle%20cx%3D%22121%22%20cy%3D%22104%22%20r%3D%226.4%22%20fill%3D%22%236f9fd0%22%2F%3E%3Ccircle%20cx%3D%2279%22%20cy%3D%22104%22%20r%3D%223.2%22%20fill%3D%22%231d1418%22%2F%3E%3Ccircle%20cx%3D%22121%22%20cy%3D%22104%22%20r%3D%223.2%22%20fill%3D%22%231d1418%22%2F%3E%3Ccircle%20cx%3D%2281.9%22%20cy%3D%22101.2%22%20r%3D%222.2%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%22123.9%22%20cy%3D%22101.2%22%20r%3D%222.2%22%20fill%3D%22%23fff%22%2F%3E%3Cellipse%20cx%3D%2260%22%20cy%3D%22119%22%20rx%3D%2211.5%22%20ry%3D%227.5%22%20fill%3D%22%23f2a29e%22%20opacity%3D%22.5%22%2F%3E%3Cellipse%20cx%3D%22140%22%20cy%3D%22119%22%20rx%3D%2211.5%22%20ry%3D%227.5%22%20fill%3D%22%23f2a29e%22%20opacity%3D%22.5%22%2F%3E%3Cpath%20d%3D%22M95%20121c3%203.4%207%203.4%2010%200%22%20fill%3D%22none%22%20stroke%3D%22%23dfab88%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M91%20133c5%208%2013%208%2018%200-6%202.5-12%202.5-18%200z%22%20fill%3D%22%23c46a72%22%2F%3E%3Cpath%20d%3D%22M93.4%20132.6c4.4%201.7%208.8%201.7%2013.2%200-4.4%201.1-8.8%201.1-13.2%200z%22%20fill%3D%22%23fff%22%20opacity%3D%22.75%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Nova">
+        <span class="nm">Nova</span>
+      </button>
       <button class="btn pick rose" data-who="rose">
         <img class="face" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%3E%3Cdefs%3E%3CclipPath%20id%3D%22c%22%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%22100%22%20r%3D%22100%22%2F%3E%3C%2FclipPath%3E%3ClinearGradient%20id%3D%22t%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%238fe8dd%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%232fae9f%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22r%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ffa5cd%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23e2568f%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Cg%20clip-path%3D%22url%28%23c%29%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23dcf5ef%22%2F%3E%0A%3Ccircle%20cx%3D%22100%22%20cy%3D%22158%22%20r%3D%2296%22%20fill%3D%22%23eefaf6%22%2F%3E%0A%3Cpath%20d%3D%22M100%2022c-46%200-68%2032-68%2078%200%2038%208%2066%2012%20100h112c4-34%2012-62%2012-100%200-46-22-78-68-78z%22%20fill%3D%22%23a87c52%22%2F%3E%0A%3Cpath%20d%3D%22M87%20132h26v34H87z%22%20fill%3D%22%23eec0a0%22%2F%3E%0A%3Cpath%20d%3D%22M100%20152c-29%200-52%2017-58%2040l-5%2022h126l-5-22c-6-23-29-40-58-40z%22%20fill%3D%22%23f2a8bd%22%2F%3E%0A%3Cpath%20d%3D%22M100%20152c-9%200-17%201-24%204l24%2024%2024-24c-7-3-15-4-24-4z%22%20fill%3D%22%23e28fa8%22%2F%3E%0A%3Cellipse%20cx%3D%22100%22%20cy%3D%22102%22%20rx%3D%2245%22%20ry%3D%2252%22%20fill%3D%22%23f8dcc0%22%2F%3E%0A%3Cellipse%20cx%3D%2256%22%20cy%3D%22104%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23f2cfae%22%2F%3E%0A%3Cellipse%20cx%3D%22144%22%20cy%3D%22104%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23f2cfae%22%2F%3E%0A%3Cpath%20d%3D%22M100%2044c-36%200-52%2020-53%2050%203-14%207-26%2013-32%2016%2014%2054%2016%2076%202%206%206%2011%2016%2014%2030%200-30-14-50-50-50z%22%20fill%3D%22%23b98a5e%22%2F%3E%0A%3Cpath%20d%3D%22M40%2086c-7%2024-5%2050%200%2072%207-22%206-50%200-72z%22%20fill%3D%22%23936b45%22%2F%3E%0A%3Cpath%20d%3D%22M160%2086c7%2024%205%2050%200%2072-7-22-6-50%200-72z%22%20fill%3D%22%23936b45%22%2F%3E%0A%3Cellipse%20cx%3D%2280%22%20cy%3D%22100%22%20rx%3D%228.5%22%20ry%3D%227.5%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cellipse%20cx%3D%22120%22%20cy%3D%22100%22%20rx%3D%228.5%22%20ry%3D%227.5%22%20fill%3D%22%23fff%22%2F%3E%0A%3Ccircle%20cx%3D%2280%22%20cy%3D%22100%22%20r%3D%225.6%22%20fill%3D%22%237a5433%22%2F%3E%0A%3Ccircle%20cx%3D%22120%22%20cy%3D%22100%22%20r%3D%225.6%22%20fill%3D%22%237a5433%22%2F%3E%0A%3Ccircle%20cx%3D%2280%22%20cy%3D%22100%22%20r%3D%222.8%22%20fill%3D%22%231d1418%22%2F%3E%0A%3Ccircle%20cx%3D%22120%22%20cy%3D%22100%22%20r%3D%222.8%22%20fill%3D%22%231d1418%22%2F%3E%0A%3Ccircle%20cx%3D%2282.6%22%20cy%3D%2297.4%22%20r%3D%221.9%22%20fill%3D%22%23fff%22%2F%3E%0A%3Ccircle%20cx%3D%22122.6%22%20cy%3D%2297.4%22%20r%3D%221.9%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cpath%20d%3D%22M97%20113c2%202.6%204%202.6%206%200%22%20fill%3D%22none%22%20stroke%3D%22%23dcab86%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M80%20122c9%2018%2031%2018%2040%200-13%205-27%205-40%200z%22%20fill%3D%22%23a8465a%22%2F%3E%3Cpath%20d%3D%22M82.4%20122.7c11.6%204%2023.6%204%2035.2%200-11%203-24.2%203-35.2%200z%22%20fill%3D%22%23fff%22%2F%3E%3Cg%20id%3D%22wL%22%3E%3Cpath%20d%3D%22M92%2074C84%2056%2064%2046%2048%2052%2038%2058%2040%2076%2054%2084c12%206%2030%202%2038-10z%22%20fill%3D%22url%28%23t%29%22%2F%3E%3Cpath%20d%3D%22M88%20112c-10%204-24%206-32%2014-4%208%204%2015%2014%2012%2010-4%2017-14%2018-26z%22%20fill%3D%22url%28%23r%29%22%2F%3E%3Cpath%20d%3D%22M58%2060c10%204%2021%2010%2029%2018%22%20fill%3D%22none%22%20stroke%3D%22%2314867a%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2253%22%20cy%3D%2272%22%20r%3D%222%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2269%22%20cy%3D%2254%22%20r%3D%221.8%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%22122%22%20r%3D%222%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28200%2C0%29%20scale%28-1%2C1%29%22%3E%3Cuse%20href%3D%22%23wL%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22M100%2026l10%2044H90z%22%20fill%3D%22%23f2c94c%22%20stroke%3D%22%23cf9d22%22%20stroke-width%3D%222.4%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M94%2052h12M92%2062h16M96%2040h8%22%20stroke%3D%22%23fff5cf%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2286%22%20cy%3D%2274%22%20r%3D%227.5%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2286%22%20cy%3D%2274%22%20r%3D%222.8%22%20fill%3D%22%23f2c94c%22%2F%3E%3Ccircle%20cx%3D%22114%22%20cy%3D%2275%22%20r%3D%226.5%22%20fill%3D%22%236bb8ee%22%2F%3E%3Ccircle%20cx%3D%22114%22%20cy%3D%2275%22%20r%3D%222.4%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%2278%22%20r%3D%225%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%2278%22%20r%3D%221.9%22%20fill%3D%22%23ffe9a8%22%2F%3E%3Cpath%20d%3D%22M138%20112c11%207%2011%2022%200%2029%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%224.5%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M145%20107c6%2010%206%2023%200%2034%22%20fill%3D%22none%22%20stroke%3D%22%23bdeee6%22%20stroke-width%3D%223.5%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%22136%22%20r%3D%221.8%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%22127%22%20cy%3D%22132%22%20r%3D%221.6%22%20fill%3D%22%238ef0ff%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Rose">
         <span class="nm">Rose</span>
@@ -378,15 +428,30 @@
     </div>
 
     <div class="stage">
+      <svg id="tree" viewBox="0 0 220 400" aria-hidden="true">
+        <path d="M96 400V150c0-22 4-40 10-54 -14 16-22 34-22 58v246z" fill="#7d5c39"/>
+        <path d="M96 400V150c0-24 8-44 22-58 16 14 24 34 24 58v250z" fill="#96714a"/>
+        <path d="M110 260c-18-6-30-20-34-38 16 4 28 16 34 38zM112 200c16-8 26-22 28-40-16 6-26 20-28 40z" fill="#7d5c39"/>
+        <circle cx="110" cy="96" r="60" fill="#3f9e60"/>
+        <circle cx="52" cy="132" r="42" fill="#358a52"/>
+        <circle cx="168" cy="132" r="42" fill="#358a52"/>
+        <circle cx="110" cy="140" r="44" fill="#57c07a"/>
+        <circle cx="74" cy="70" r="28" fill="#57c07a"/>
+        <circle cx="150" cy="74" r="26" fill="#4cb571"/>
+        <circle cx="92" cy="52" r="14" fill="#8fe6aa"/>
+        <circle cx="140" cy="118" r="12" fill="#8fe6aa"/>
+      </svg>
       <div class="catwrap idle" id="catwrap">
         <div class="bubble" id="bubble"><svg><use id="bubbleUse" href="#i-fish"></use></svg></div>
 
         <!-- ===== Titan ===== -->
         <svg id="cat" viewBox="0 0 420 400">
           <!-- tail -->
-          <path class="tail" d="M330 330c40 4 60-18 56-48-3-24-28-30-36-12-6 14 8 22 18 12"
-                fill="none" stroke="#8a6a44" stroke-width="26" stroke-linecap="round"/>
-          <path class="tail" d="M352 300c8 4 16 2 22-4M366 268c6 2 12 0 16-6" stroke="#5b4429" stroke-width="9" fill="none" stroke-linecap="round" opacity=".9"/>
+          <g class="tail">
+            <path d="M330 330c40 4 60-18 56-48-3-24-28-30-36-12-6 14 8 22 18 12"
+                  fill="none" stroke="#8a6a44" stroke-width="26" stroke-linecap="round"/>
+            <path d="M352 300c8 4 16 2 22-4M366 268c6 2 12 0 16-6" stroke="#5b4429" stroke-width="9" fill="none" stroke-linecap="round" opacity=".9"/>
+          </g>
 
           <!-- body -->
           <g class="body">
@@ -395,9 +460,14 @@
             <path d="M118 286c22 8 40 8 58 2M124 322c24 8 42 8 60 2M300 286c-20 8-38 8-56 2M296 322c-22 8-40 8-58 2"
                   stroke="#5b4429" stroke-width="12" fill="none" stroke-linecap="round" opacity=".75"/>
             <!-- front paws -->
-            <ellipse cx="166" cy="376" rx="34" ry="20" fill="#e3d2ae"/>
-            <ellipse cx="254" cy="376" rx="34" ry="20" fill="#e3d2ae"/>
-            <path d="M156 372v10M166 370v12M176 372v10M244 372v10M254 370v12M264 372v10" stroke="#b39c74" stroke-width="5" stroke-linecap="round"/>
+            <g class="paw-l">
+              <ellipse cx="166" cy="376" rx="34" ry="20" fill="#e3d2ae"/>
+              <path d="M156 372v10M166 370v12M176 372v10" stroke="#b39c74" stroke-width="5" stroke-linecap="round"/>
+            </g>
+            <g class="paw-r">
+              <ellipse cx="254" cy="376" rx="34" ry="20" fill="#e3d2ae"/>
+              <path d="M244 372v10M254 370v12M264 372v10" stroke="#b39c74" stroke-width="5" stroke-linecap="round"/>
+            </g>
           </g>
 
           <!-- head -->
@@ -466,6 +536,7 @@
       <button class="btn act feed" data-act="feed"><svg><use href="#i-fish"></use></svg><span>Feed</span></button>
       <button class="btn act play" data-act="play"><svg><use href="#i-yarn"></use></svg><span>Play</span></button>
       <button class="btn act pet"  data-act="pet"><svg><use href="#i-hand"></use></svg><span>Pet</span></button>
+      <button class="btn act climb" data-act="climb"><svg><use href="#i-tree"></use></svg><span>Climb</span></button>
     </div>
   </section>
 
@@ -594,6 +665,7 @@
   /* ---------- players ---------- */
   var PLAYERS = {
     emry: { name:"Emry", img:"data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%3E%3Cdefs%3E%3CclipPath%20id%3D%22c%22%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%22100%22%20r%3D%22100%22%2F%3E%3C%2FclipPath%3E%3ClinearGradient%20id%3D%22w%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ff6fb2%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23cc2f86%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Cg%20clip-path%3D%22url%28%23c%29%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23ffe7f4%22%2F%3E%0A%3Ccircle%20cx%3D%22100%22%20cy%3D%22158%22%20r%3D%2296%22%20fill%3D%22%23fff2f9%22%2F%3E%0A%3Cpath%20d%3D%22M100%2022c-46%200-68%2032-68%2078%200%2038%208%2066%2012%20100h112c4-34%2012-62%2012-100%200-46-22-78-68-78z%22%20fill%3D%22%23eec97e%22%2F%3E%0A%3Cpath%20d%3D%22M87%20132h26v34H87z%22%20fill%3D%22%23eec0a0%22%2F%3E%0A%3Cpath%20d%3D%22M100%20152c-29%200-52%2017-58%2040l-5%2022h126l-5-22c-6-23-29-40-58-40z%22%20fill%3D%22%23fffdf7%22%2F%3E%0A%3Cpath%20d%3D%22M100%20152c-9%200-17%201-24%204l24%2024%2024-24c-7-3-15-4-24-4z%22%20fill%3D%22%23f1e7d8%22%2F%3E%0A%3Cellipse%20cx%3D%22100%22%20cy%3D%22102%22%20rx%3D%2245%22%20ry%3D%2252%22%20fill%3D%22%23f8dcc0%22%2F%3E%0A%3Cellipse%20cx%3D%2256%22%20cy%3D%22104%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23f2cfae%22%2F%3E%0A%3Cellipse%20cx%3D%22144%22%20cy%3D%22104%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23f2cfae%22%2F%3E%0A%3Cpath%20d%3D%22M100%2044c-36%200-52%2020-53%2050%203-14%207-26%2013-32%2016%2014%2054%2016%2076%202%206%206%2011%2016%2014%2030%200-30-14-50-50-50z%22%20fill%3D%22%23f6d98d%22%2F%3E%0A%3Cpath%20d%3D%22M40%2086c-7%2024-5%2050%200%2072%207-22%206-50%200-72z%22%20fill%3D%22%23e4bc6c%22%2F%3E%0A%3Cpath%20d%3D%22M160%2086c7%2024%205%2050%200%2072-7-22-6-50%200-72z%22%20fill%3D%22%23e4bc6c%22%2F%3E%0A%3Cellipse%20cx%3D%2280%22%20cy%3D%22100%22%20rx%3D%228.5%22%20ry%3D%227.5%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cellipse%20cx%3D%22120%22%20cy%3D%22100%22%20rx%3D%228.5%22%20ry%3D%227.5%22%20fill%3D%22%23fff%22%2F%3E%0A%3Ccircle%20cx%3D%2280%22%20cy%3D%22100%22%20r%3D%225.6%22%20fill%3D%22%235b8bc0%22%2F%3E%0A%3Ccircle%20cx%3D%22120%22%20cy%3D%22100%22%20r%3D%225.6%22%20fill%3D%22%235b8bc0%22%2F%3E%0A%3Ccircle%20cx%3D%2280%22%20cy%3D%22100%22%20r%3D%222.8%22%20fill%3D%22%231d1418%22%2F%3E%0A%3Ccircle%20cx%3D%22120%22%20cy%3D%22100%22%20r%3D%222.8%22%20fill%3D%22%231d1418%22%2F%3E%0A%3Ccircle%20cx%3D%2282.6%22%20cy%3D%2297.4%22%20r%3D%221.9%22%20fill%3D%22%23fff%22%2F%3E%0A%3Ccircle%20cx%3D%22122.6%22%20cy%3D%2297.4%22%20r%3D%221.9%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cpath%20d%3D%22M97%20113c2%202.6%204%202.6%206%200%22%20fill%3D%22none%22%20stroke%3D%22%23dcab86%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M76%20122c10%2022%2038%2022%2048%200-16%206-32%206-48%200z%22%20fill%3D%22%23a8465a%22%2F%3E%3Cpath%20d%3D%22M78.5%20122.8c14%205%2029%205%2043%200-13%203.4-30%203.4-43%200z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22M88%20140c8%203%2016%203%2024%200%22%20fill%3D%22none%22%20stroke%3D%22%238d3a4a%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20opacity%3D%22.5%22%2F%3E%3Cg%20id%3D%22wL%22%3E%3Cpath%20d%3D%22M92%2074C84%2056%2064%2046%2048%2052%2038%2058%2040%2076%2054%2084c12%206%2030%202%2038-10z%22%20fill%3D%22url%28%23w%29%22%2F%3E%3Cpath%20d%3D%22M88%20112c-10%204-24%206-32%2014-4%208%204%2015%2014%2012%2010-4%2017-14%2018-26z%22%20fill%3D%22url%28%23w%29%22%2F%3E%3Cellipse%20cx%3D%2260%22%20cy%3D%2266%22%20rx%3D%226%22%20ry%3D%224.6%22%20fill%3D%22%232e0b26%22%2F%3E%3Cellipse%20cx%3D%2276%22%20cy%3D%2274%22%20rx%3D%223.6%22%20ry%3D%223%22%20fill%3D%22%232e0b26%22%2F%3E%3Cellipse%20cx%3D%2270%22%20cy%3D%22124%22%20rx%3D%224.6%22%20ry%3D%223.6%22%20fill%3D%22%232e0b26%22%2F%3E%3Ccircle%20cx%3D%2252%22%20cy%3D%2274%22%20r%3D%222%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2266%22%20cy%3D%2255%22%20r%3D%221.8%22%20fill%3D%22%238ef0ff%22%2F%3E%3Ccircle%20cx%3D%2280%22%20cy%3D%22120%22%20r%3D%221.7%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28200%2C0%29%20scale%28-1%2C1%29%22%3E%3Cuse%20href%3D%22%23wL%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22M100%2078c-6-6-12-10-12-15%200-4%204-7%208-4%202%201%203%203%204%205%201-2%202-4%204-5%204-3%208%200%208%204%200%205-6%209-12%2015z%22%20fill%3D%22none%22%20stroke%3D%22%2320121c%22%20stroke-width%3D%223.6%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M100%2080c5%206-6%209-1%2014%22%20fill%3D%22none%22%20stroke%3D%22%2320121c%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2290%22%20cy%3D%2258%22%20r%3D%221.7%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%22111%22%20cy%3D%2257%22%20r%3D%221.5%22%20fill%3D%22%238ef0ff%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E" },
+    nova:  { name:"Nova",  img:"data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%3E%3Cdefs%3E%3CclipPath%20id%3D%22c%22%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%22100%22%20r%3D%22100%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Cg%20clip-path%3D%22url%28%23c%29%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23e6ecff%22%2F%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%22158%22%20r%3D%2296%22%20fill%3D%22%23f3f6ff%22%2F%3E%3Cpath%20d%3D%22M100%20150c-33%200-58%2018-64%2045l-4%2019h136l-4-19c-6-27-31-45-64-45z%22%20fill%3D%22%23e8c6c6%22%2F%3E%3Cpath%20d%3D%22M100%20150c-10%200-19%202-27%205l27%2021%2027-21c-8-3-17-5-27-5z%22%20fill%3D%22%23d7aaaa%22%2F%3E%3Cpath%20d%3D%22M84%20126h32v30H84z%22%20fill%3D%22%23eec3a8%22%2F%3E%3Cellipse%20cx%3D%2246%22%20cy%3D%22102%22%20rx%3D%229%22%20ry%3D%2212.5%22%20fill%3D%22%23f3cdb0%22%2F%3E%3Cellipse%20cx%3D%22154%22%20cy%3D%22102%22%20rx%3D%229%22%20ry%3D%2212.5%22%20fill%3D%22%23f3cdb0%22%2F%3E%3Cellipse%20cx%3D%22100%22%20cy%3D%2295%22%20rx%3D%2254%22%20ry%3D%2256%22%20fill%3D%22%23f9dcc3%22%2F%3E%3Cpath%20d%3D%22M100%2039c-19%200-33%207-40%2017%2011-7%2025-11%2040-11s29%204%2040%2011c-7-10-21-17-40-17z%22%20fill%3D%22%23f2dfc0%22%20opacity%3D%22.9%22%2F%3E%3Cpath%20d%3D%22M99%2040c3-9%2015-7%2014%201-1%207-10%206-10%200%22%20fill%3D%22none%22%20stroke%3D%22%23e7cfa6%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M68%2089c7-3%2014-3%2019%201M113%2090c5-4%2012-4%2019-1%22%20fill%3D%22none%22%20stroke%3D%22%23e2bd96%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%2F%3E%3Cellipse%20cx%3D%2279%22%20cy%3D%22104%22%20rx%3D%229.5%22%20ry%3D%228.5%22%20fill%3D%22%23fff%22%2F%3E%3Cellipse%20cx%3D%22121%22%20cy%3D%22104%22%20rx%3D%229.5%22%20ry%3D%228.5%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2279%22%20cy%3D%22104%22%20r%3D%226.4%22%20fill%3D%22%236f9fd0%22%2F%3E%3Ccircle%20cx%3D%22121%22%20cy%3D%22104%22%20r%3D%226.4%22%20fill%3D%22%236f9fd0%22%2F%3E%3Ccircle%20cx%3D%2279%22%20cy%3D%22104%22%20r%3D%223.2%22%20fill%3D%22%231d1418%22%2F%3E%3Ccircle%20cx%3D%22121%22%20cy%3D%22104%22%20r%3D%223.2%22%20fill%3D%22%231d1418%22%2F%3E%3Ccircle%20cx%3D%2281.9%22%20cy%3D%22101.2%22%20r%3D%222.2%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%22123.9%22%20cy%3D%22101.2%22%20r%3D%222.2%22%20fill%3D%22%23fff%22%2F%3E%3Cellipse%20cx%3D%2260%22%20cy%3D%22119%22%20rx%3D%2211.5%22%20ry%3D%227.5%22%20fill%3D%22%23f2a29e%22%20opacity%3D%22.5%22%2F%3E%3Cellipse%20cx%3D%22140%22%20cy%3D%22119%22%20rx%3D%2211.5%22%20ry%3D%227.5%22%20fill%3D%22%23f2a29e%22%20opacity%3D%22.5%22%2F%3E%3Cpath%20d%3D%22M95%20121c3%203.4%207%203.4%2010%200%22%20fill%3D%22none%22%20stroke%3D%22%23dfab88%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M91%20133c5%208%2013%208%2018%200-6%202.5-12%202.5-18%200z%22%20fill%3D%22%23c46a72%22%2F%3E%3Cpath%20d%3D%22M93.4%20132.6c4.4%201.7%208.8%201.7%2013.2%200-4.4%201.1-8.8%201.1-13.2%200z%22%20fill%3D%22%23fff%22%20opacity%3D%22.75%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E" },
     rose:  { name:"Rose",  img:"data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%3E%3Cdefs%3E%3CclipPath%20id%3D%22c%22%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%22100%22%20r%3D%22100%22%2F%3E%3C%2FclipPath%3E%3ClinearGradient%20id%3D%22t%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%238fe8dd%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%232fae9f%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22r%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ffa5cd%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23e2568f%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Cg%20clip-path%3D%22url%28%23c%29%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23dcf5ef%22%2F%3E%0A%3Ccircle%20cx%3D%22100%22%20cy%3D%22158%22%20r%3D%2296%22%20fill%3D%22%23eefaf6%22%2F%3E%0A%3Cpath%20d%3D%22M100%2022c-46%200-68%2032-68%2078%200%2038%208%2066%2012%20100h112c4-34%2012-62%2012-100%200-46-22-78-68-78z%22%20fill%3D%22%23a87c52%22%2F%3E%0A%3Cpath%20d%3D%22M87%20132h26v34H87z%22%20fill%3D%22%23eec0a0%22%2F%3E%0A%3Cpath%20d%3D%22M100%20152c-29%200-52%2017-58%2040l-5%2022h126l-5-22c-6-23-29-40-58-40z%22%20fill%3D%22%23f2a8bd%22%2F%3E%0A%3Cpath%20d%3D%22M100%20152c-9%200-17%201-24%204l24%2024%2024-24c-7-3-15-4-24-4z%22%20fill%3D%22%23e28fa8%22%2F%3E%0A%3Cellipse%20cx%3D%22100%22%20cy%3D%22102%22%20rx%3D%2245%22%20ry%3D%2252%22%20fill%3D%22%23f8dcc0%22%2F%3E%0A%3Cellipse%20cx%3D%2256%22%20cy%3D%22104%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23f2cfae%22%2F%3E%0A%3Cellipse%20cx%3D%22144%22%20cy%3D%22104%22%20rx%3D%227%22%20ry%3D%2210%22%20fill%3D%22%23f2cfae%22%2F%3E%0A%3Cpath%20d%3D%22M100%2044c-36%200-52%2020-53%2050%203-14%207-26%2013-32%2016%2014%2054%2016%2076%202%206%206%2011%2016%2014%2030%200-30-14-50-50-50z%22%20fill%3D%22%23b98a5e%22%2F%3E%0A%3Cpath%20d%3D%22M40%2086c-7%2024-5%2050%200%2072%207-22%206-50%200-72z%22%20fill%3D%22%23936b45%22%2F%3E%0A%3Cpath%20d%3D%22M160%2086c7%2024%205%2050%200%2072-7-22-6-50%200-72z%22%20fill%3D%22%23936b45%22%2F%3E%0A%3Cellipse%20cx%3D%2280%22%20cy%3D%22100%22%20rx%3D%228.5%22%20ry%3D%227.5%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cellipse%20cx%3D%22120%22%20cy%3D%22100%22%20rx%3D%228.5%22%20ry%3D%227.5%22%20fill%3D%22%23fff%22%2F%3E%0A%3Ccircle%20cx%3D%2280%22%20cy%3D%22100%22%20r%3D%225.6%22%20fill%3D%22%237a5433%22%2F%3E%0A%3Ccircle%20cx%3D%22120%22%20cy%3D%22100%22%20r%3D%225.6%22%20fill%3D%22%237a5433%22%2F%3E%0A%3Ccircle%20cx%3D%2280%22%20cy%3D%22100%22%20r%3D%222.8%22%20fill%3D%22%231d1418%22%2F%3E%0A%3Ccircle%20cx%3D%22120%22%20cy%3D%22100%22%20r%3D%222.8%22%20fill%3D%22%231d1418%22%2F%3E%0A%3Ccircle%20cx%3D%2282.6%22%20cy%3D%2297.4%22%20r%3D%221.9%22%20fill%3D%22%23fff%22%2F%3E%0A%3Ccircle%20cx%3D%22122.6%22%20cy%3D%2297.4%22%20r%3D%221.9%22%20fill%3D%22%23fff%22%2F%3E%0A%3Cpath%20d%3D%22M97%20113c2%202.6%204%202.6%206%200%22%20fill%3D%22none%22%20stroke%3D%22%23dcab86%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M80%20122c9%2018%2031%2018%2040%200-13%205-27%205-40%200z%22%20fill%3D%22%23a8465a%22%2F%3E%3Cpath%20d%3D%22M82.4%20122.7c11.6%204%2023.6%204%2035.2%200-11%203-24.2%203-35.2%200z%22%20fill%3D%22%23fff%22%2F%3E%3Cg%20id%3D%22wL%22%3E%3Cpath%20d%3D%22M92%2074C84%2056%2064%2046%2048%2052%2038%2058%2040%2076%2054%2084c12%206%2030%202%2038-10z%22%20fill%3D%22url%28%23t%29%22%2F%3E%3Cpath%20d%3D%22M88%20112c-10%204-24%206-32%2014-4%208%204%2015%2014%2012%2010-4%2017-14%2018-26z%22%20fill%3D%22url%28%23r%29%22%2F%3E%3Cpath%20d%3D%22M58%2060c10%204%2021%2010%2029%2018%22%20fill%3D%22none%22%20stroke%3D%22%2314867a%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2253%22%20cy%3D%2272%22%20r%3D%222%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2269%22%20cy%3D%2254%22%20r%3D%221.8%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%22122%22%20r%3D%222%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28200%2C0%29%20scale%28-1%2C1%29%22%3E%3Cuse%20href%3D%22%23wL%22%2F%3E%3C%2Fg%3E%3Cpath%20d%3D%22M100%2026l10%2044H90z%22%20fill%3D%22%23f2c94c%22%20stroke%3D%22%23cf9d22%22%20stroke-width%3D%222.4%22%20stroke-linejoin%3D%22round%22%2F%3E%3Cpath%20d%3D%22M94%2052h12M92%2062h16M96%2040h8%22%20stroke%3D%22%23fff5cf%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2286%22%20cy%3D%2274%22%20r%3D%227.5%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%2286%22%20cy%3D%2274%22%20r%3D%222.8%22%20fill%3D%22%23f2c94c%22%2F%3E%3Ccircle%20cx%3D%22114%22%20cy%3D%2275%22%20r%3D%226.5%22%20fill%3D%22%236bb8ee%22%2F%3E%3Ccircle%20cx%3D%22114%22%20cy%3D%2275%22%20r%3D%222.4%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%2278%22%20r%3D%225%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%2278%22%20r%3D%221.9%22%20fill%3D%22%23ffe9a8%22%2F%3E%3Cpath%20d%3D%22M138%20112c11%207%2011%2022%200%2029%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%224.5%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M145%20107c6%2010%206%2023%200%2034%22%20fill%3D%22none%22%20stroke%3D%22%23bdeee6%22%20stroke-width%3D%223.5%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2274%22%20cy%3D%22136%22%20r%3D%221.8%22%20fill%3D%22%23fff%22%2F%3E%3Ccircle%20cx%3D%22127%22%20cy%3D%22132%22%20r%3D%221.6%22%20fill%3D%22%238ef0ff%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"  }
   };
 
@@ -601,7 +673,8 @@
   var MOODS = [
     { key:"hungry",  want:"feed", icon:"#i-fish",  yay:"Yum yum!",  nay:"Not now!" },
     { key:"playful", want:"play", icon:"#i-yarn",  yay:"Wheee!",    nay:"Nope!"    },
-    { key:"cuddly",  want:"pet",  icon:"#i-hand",  yay:"Purrrr!",   nay:"Hisss!"   }
+    { key:"cuddly",  want:"pet",  icon:"#i-hand",  yay:"Purrrr!",   nay:"Hisss!"   },
+    { key:"climby",  want:"climb",icon:"#i-tree",  yay:"Up we go!", nay:"Too high!"}
   ];
 
   var GOAL = 5, MAX_MAD = 3;
@@ -711,6 +784,7 @@
     state.mood = next;
 
     /* Titan's body language runs every round; the bubble only rides along on the first */
+    $(".stage").classList.remove("climb");
     setCat("idle tell-" + next.key);
 
     byId("bubbleUse").setAttribute("href", next.icon);
@@ -759,7 +833,8 @@
 
     if(act === state.mood.want){
       state.score++;
-      setCat("happy");
+      if(act === "climb"){ $(".stage").classList.add("climb"); setCat("happy climbing"); }
+      else { setCat("happy"); }
       purr();
       floaters("#i-heart", 7);
       toast(state.mood.yay, "#ff5f9e");
