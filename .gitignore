@@ -1,0 +1,4 @@
+# Source photos of the kids and the build that embeds them stay local.
+assets/
+index-photos.html
+.DS_Store
